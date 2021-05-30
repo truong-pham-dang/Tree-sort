@@ -9,19 +9,43 @@
 module tree_sort_module
     implicit none
     private
-    public :: insert, print_tree, node
 
-    type, public :: node
+    type :: node
         private
         integer :: value
         type (node), pointer :: left => null(), &
                                 right => null()
     end type node
 
+    type, public :: binary_tree
+        private
+        type (node), pointer :: root => null()
+
+        contains
+            procedure :: build
+            procedure :: print
+    end type binary_tree
+
 contains
 
-   recursive subroutine insert (t, number)
+    subroutine build(tree, num)
+        implicit none
+        class (binary_tree)    :: tree
+        integer, intent(inout) :: num
 
+        call insert(tree%root, num)
+
+    end subroutine build
+
+    subroutine print(tree)
+        implicit none
+        class (binary_tree)    :: tree
+
+        call print_tree(tree%root)
+    end subroutine print
+
+   recursive subroutine insert (t, number)
+      implicit none
       type (node),    pointer        :: t  ! A tree
       integer,        intent(inout)  :: number
 
@@ -39,8 +63,8 @@ contains
    end subroutine insert
 
    recursive subroutine print_tree (t)
-   ! Print tree in infix order
-
+      ! Print tree in infix order
+      implicit none
       type (node), pointer :: t  ! A tree
 
       if (associated (t)) then
@@ -60,14 +84,15 @@ program tree_sort
 ! but worst case (input is sorted) n ** 2.
 
    use tree_sort_module
+   !use ifport               ! Intel Fortran compiler
 
    implicit none
 
-   type (node), pointer :: t  ! A tree
-   integer, parameter   :: seed = 86456
-   integer              :: i, j, number
+   type (binary_tree) :: t  ! A tree
+   integer, parameter :: seed = 86456   ! gfortran
+   integer            :: i, j, number
 
-   call srand(seed)
+   call srand(seed)                     ! gfortran
    open (unit=1, file='input.txt')
    do i = 1, 5
      write (1, *) irand(i)
@@ -77,20 +102,18 @@ program tree_sort
    end do
    close (1)
 
-   nullify(t)
-
    open (unit=1, file='input.txt')
 
    ! Start with empty tree
    do i = 1, 10
       read (unit=1, fmt=*) number
-      call insert (t, number) ! Put next number in tree
+      call t % build (number) ! Put next number in tree
    end do
    close (1)
 
 
    ! Print nodes of tree in infix order
-   call print_tree (t)
+   call t % print ()
 
 end program tree_sort
 
