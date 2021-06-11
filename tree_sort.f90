@@ -84,21 +84,25 @@ program tree_sort
 ! but worst case (input is sorted) n ** 2.
 
    use tree_sort_module
-   !use ifport               ! Intel Fortran compiler
+   
+   interface
+       real function random_uniform(a,b)
+       implicit none
+       real , intent(in) :: a, b
+       end function random_uniform
+   end interface
 
    implicit none
 
    type (binary_tree) :: t  ! A tree
-   integer, parameter :: seed = 86456   ! gfortran
    integer            :: i, j, number
-
-   call srand(seed)                     ! gfortran
+   real               :: x
+   
+   ! Oracle F95
    open (unit=1, file='input.txt')
-   do i = 1, 5
-     write (1, *) irand(i)
-   end do
-   do j = 10, 6, -1
-     write (1, *) irand(j)
+   do i = 1, 10
+       x = random_uniform(0.0, 1.0)
+       write (1, *) floor(x * 100)
    end do
    close (1)
 
