@@ -31,7 +31,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="random_number_generator_module.f90">
+			<Option weight="0" />
+		</Unit>
 		<Unit filename="tree_sort.f90">
+			<Option weight="1" />
+		</Unit>
+		<Unit filename="tree_sort_module.f90">
 			<Option weight="0" />
 		</Unit>
 		<Extensions />
