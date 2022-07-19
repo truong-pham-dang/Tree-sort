@@ -1,6 +1,13 @@
-CF         = gfortran
-FFLAGS     = -O0
-LD         = gfortran
+ifeq ($(TARGET),intel)
+        CF = ifort
+        FFLAGS =
+        LD = ifort
+else
+        CF = gfortran
+        FFLAGS = -O0
+        LD = gfortran
+endif
+
 LDFLAGS    = 
 PREPROC    = 
 
