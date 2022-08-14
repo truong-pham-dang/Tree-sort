@@ -13,5 +13,5 @@ source /opt/intel/oneapi/setvars.sh
 ```
 To build code, execute:
 ```
-make -f TARGET=intel
+make -f TARGET=intel OS=macos
 ```

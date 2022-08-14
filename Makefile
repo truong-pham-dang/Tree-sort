@@ -1,14 +1,18 @@
 ifeq ($(TARGET),intel)
-        CF = ifort
-        FFLAGS =
-        LD = ifort
+    CF = ifort
+    FFLAGS =
+    LD = ifort
+	ifeq (${OS},macos)
+        LDFLAGS = -L/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
+    else
+        LDFLAGS =
+    endif
 else
         CF = gfortran
-        FFLAGS = -O0
+        FFLAGS = 
         LD = gfortran
 endif
 
-LDFLAGS    = 
 PREPROC    = 
 
 OBJS = random_number_generator_module.o  \
